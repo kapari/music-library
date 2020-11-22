@@ -13,6 +13,12 @@ const Main = styled.main`
   padding: 50px;
 `;
 
+const UnshelvedList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+`;
+
 function App() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -52,9 +58,9 @@ function App() {
       <Main>
         <div>
           <h2>Unshelved Music</h2>
-          <ul>
+          <UnshelvedList>
             { currentItems }
-          </ul>
+          </UnshelvedList>
         </div>
       </Main>
     </Page>
