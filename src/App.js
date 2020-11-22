@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
+import AlbumItem from './components/AlbumItem';
 import styled from '@emotion/styled';
 
 const Page = styled.div`
@@ -42,7 +43,7 @@ function App() {
   }, [currentPage])
 
   const currentItems = collection.map((item) => {
-    return (<li key={item.id}>{ item.basic_information?.title }</li>)
+    return (<AlbumItem key={item.id} info={item.basic_information} />)
   })
 
   return (
