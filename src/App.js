@@ -11,19 +11,33 @@ const Page = styled.div`
 `;
 
 const Main = styled.main`
+  display: flex;
   padding: 50px;
 `;
 
-const UnshelvedList = styled.ul`
+const Column = styled.section`
+  flex: 1 1 auto;
+  &:first-of-type {
+    max-width: 40%;
+    padding-right: 30px;
+  }
+`;
+
+const ShelfList = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
+  min-height: 100px; // has drop area even when empty
 `;
 
 function App() {
   const initialColumnsState = {
     unshelved: {
       name: 'Unshelved Music',
+      orderedIds: []
+    },
+    column1: {
+      name: 'My New Shelf',
       orderedIds: []
     }
   }
@@ -99,66 +113,102 @@ function App() {
     const endListId = destination?.droppableId;
     const endListIndex = destination?.index;
 
-    // If no destination, do nothing
-    if (!destination) {
-      return;
-    }
-    // If destination same as source, do nothing
-    if (
-      isSameList(source, destination) && 
+    // If no destination, or if destination same as source, do nothing
+    if (!destination || (
+      isSameList(source, destination) &&
       source.index === destination.index
-    ) {
+    )) {
       return;
     }
-    // Update source column orderedIds
-    const newOrderedIds = Array.from(columns[source.droppableId].orderedIds);
-    newOrderedIds.splice(source.index, 1);
+
+    // Update column orderedIds
+    const newStartIds = Array.from(columns[startListId].orderedIds);
+    newStartIds.splice(startListIndex, 1); 
+
     if (isSameList(source, destination)) {
-      newOrderedIds.splice(destination.index, 0, draggableId);
+      newStartIds.splice(endListIndex, 0, draggableId);
       setColumns({
         ...columns,
-        [source.droppableId]: {
-          ...columns[source.droppableId],
-          orderedIds: newOrderedIds
+        [startListId]: {
+          ...columns[startListId],
+          orderedIds: newStartIds
         }
       })
     } else {
-      // TODO
+      const newEndIds = Array.from(columns[endListId].orderedIds);
+      newEndIds.splice(endListIndex, 0, draggableId);
+      setColumns({
+        ...columns,
+        [startListId]: {
+          ...columns[startListId],
+          orderedIds: newStartIds
+        },
+        [endListId]: {
+          ...columns[endListId],
+          orderedIds: newEndIds
+        }
+      })
     }
   })
 
-  const unshelvedItems = columns['unshelved'].orderedIds.map((id, index) => {
-    return (
-      <AlbumItem
-        key={id}
-        index={index}
-        info={allData[id]}
-      />
-    )
-  })
+  const getAlbumItems = (columnId) => {
+    const items = columns[columnId].orderedIds.map((id, index) => {
+      return (
+        <AlbumItem
+          key={id}
+          index={index}
+          info={allData[id]}
+        />
+      )
+    });
+    return items;
+  }
 
   return (
     <Page>
       <Header />
       <Main>
-        <div>
-          <h2>Unshelved Music</h2>
+        {!isLoaded && (
+          <div>
+            <p>Loading...</p>
+          </div>
+        )}
+        {isLoaded && (
           <DragDropContext
             onDragEnd={updateListContent}
           >
-            <Droppable droppableId="unshelved">
-              {(provided) => (
-                <UnshelvedList 
-                  ref={provided.innerRef} 
-                  {...provided.droppableProps}
-                >
-                  {unshelvedItems}
-                  {provided.placeholder}
-                </UnshelvedList>
-              )}
-            </Droppable>
+            <Column>
+              <h2>Unshelved Music</h2>
+              <Droppable droppableId='unshelved'>
+                {(provided) => (
+                  <ShelfList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {getAlbumItems('unshelved')}
+                    {provided.placeholder}
+                  </ShelfList>
+                )}
+              </Droppable>
+            </Column>
+            <Column>
+              <div>
+                <h2>My New Shelf</h2>
+                <Droppable droppableId='column1'>
+                  {(provided) => (
+                    <ShelfList
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                    >
+                      {getAlbumItems('column1')}
+                      {provided.placeholder}
+                    </ShelfList>
+                  )}
+                </Droppable>
+              </div>
+            </Column>
           </DragDropContext>
-        </div>
+        )}
       </Main>
     </Page>
   );

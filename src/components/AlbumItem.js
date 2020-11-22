@@ -3,11 +3,10 @@ import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
 const Element = styled.li`
-  padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
+  background-color: #444;
+  padding: 10px;
 `;
 
 const Title = styled.h3`
