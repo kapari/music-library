@@ -37,15 +37,13 @@ function DragAndDropContainer({ allData, newPageData }) {
 
   // Add newly fetched data ids to unshelved column
   useEffect(() => {
+    const newUnshelvedIds = Object.keys(newPageData).map(item => item);
     setColumns(prevState => {
-      const newUnshelved = {
-        ...prevState['unshelved'],
-        orderedIds: Object.keys(newPageData).map(item => item)
-      }
       return {
         ...prevState,
         'unshelved': {
-          ...newUnshelved
+          ...prevState['unshelved'],
+          orderedIds: newUnshelvedIds
         }
       }
     })
@@ -127,9 +125,7 @@ function DragAndDropContainer({ allData, newPageData }) {
   }
 
   const getAlbumItems = (columnId) => {
-    console.log(columns)
     const items = columns[columnId].orderedIds.map((albumId, index) => {
-      console.log('album id:', albumId)
       return (
         <AlbumItem
           key={albumId}
