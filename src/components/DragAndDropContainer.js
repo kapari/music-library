@@ -6,14 +6,16 @@ import AlbumList from './AlbumList.js';
 import AlbumItem from './AlbumItem.js';
 
 const Column = styled.section`
-  flex: 1 1 auto;
+  width: calc(100% - 320px);
+  flex: 0 1 auto;
   &:first-of-type {
-    max-width: 40%;
+    flex: 0 1 320px;
     padding-right: 30px;
   }
 `;
 
 const ShelfList = styled.ul`
+  max-width: 100%;
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -102,7 +104,7 @@ function DragAndDropContainer({ allData, newPageData }) {
           key={columnId}
           id={columnId}
         >
-          {getAlbumItems(columnId)}
+          {getAlbumItems({columnId, isHorizontal: true})}
         </ShelfItem>
       ) : null
     });
@@ -124,13 +126,14 @@ function DragAndDropContainer({ allData, newPageData }) {
     setNextShelfId(prevState => prevState + 1);
   }
 
-  const getAlbumItems = (columnId) => {
+  const getAlbumItems = ({columnId, isHorizontal = false}) => {
     const items = columns[columnId].orderedIds.map((albumId, index) => {
       return (
         <AlbumItem
           key={albumId}
           index={index}
           info={allData[albumId]}
+          horizontal={isHorizontal}
         />
       )
     });
@@ -149,7 +152,7 @@ function DragAndDropContainer({ allData, newPageData }) {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {getAlbumItems('unshelved')}
+              {getAlbumItems({columnId: 'unshelved'})}
               {provided.placeholder}
             </AlbumList>
           )}

@@ -25,7 +25,6 @@ const Heading = styled.h2`
 const Content = styled.div`
   padding-top: 10px;
   padding-left: 10px;
-  padding-right: 10px;
 `;
 
 const SecretInput = styled.input`

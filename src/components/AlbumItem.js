@@ -5,12 +5,17 @@ import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
 const Element = styled.li`
+  margin-right: 10px;
   margin-bottom: 10px;
   max-width: 100%;
   width: 250px;
   border-radius: 5px;
   background-color: #444;
   padding: 15px;
+  ${props => props.isHorizontal ? {
+    display: 'inline-block',
+    verticalAlign: 'top'
+  } : null}
 `;
 
 const Row = styled.div`
@@ -63,7 +68,7 @@ const DataItem = styled.li`
   }
 `;
 
-function AlbumItem({info, index}) {
+function AlbumItem({info, index, isHorizontal}) {
   const artists = info.artists.map(item => {
     return <DataItem>{item.name}</DataItem>
   })
@@ -86,6 +91,7 @@ function AlbumItem({info, index}) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          isHorizontal
         >
           <Row as="header">
             <Title>
