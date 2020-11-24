@@ -1,6 +1,11 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMusic, faTag, faCompactDisc, faMicrophoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { 
+  faCompactDisc, 
+  faMicrophoneAlt, 
+  faMusic, 
+  faTag
+} from '@fortawesome/free-solid-svg-icons'
 import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
