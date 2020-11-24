@@ -103,6 +103,7 @@ function DragAndDropContainer({ allData, newPageData }) {
         <ShelfItem
           key={columnId}
           id={columnId}
+          onDeleteShelf={onDeleteShelf}
         >
           {getAlbumItems({columnId, isHorizontal: true})}
         </ShelfItem>
@@ -111,19 +112,40 @@ function DragAndDropContainer({ allData, newPageData }) {
     return items;
   }
 
-  const addShelf = (e) => {
+  const onAddShelf = (e) => {
     const newShelfId = `shelf${nextShelfId}`;
     setColumns(prevState => {
       return {
         ...prevState,
         [newShelfId]: {
-          id: newShelfId,
+          key: newShelfId,
           name: 'My New Shelf',
           orderedIds: []
         }
       }
     });
     setNextShelfId(prevState => prevState + 1);
+  }
+
+  const onDeleteShelf = (id) => {
+    const message = "Any albums on this shelf will be returned to the Unshelved column. Do you still want to delete this shelf?"
+    const confirmDelete = window.confirm(message)
+    if (confirmDelete) {
+      setColumns(prevState => {
+        const albumsInColumn = columns[id].orderedIds;
+        let columnsCopy = {...prevState};
+        delete columnsCopy[id];
+        const unshelvedAlbumsCopy = [...columnsCopy['unshelved'].orderedIds]
+        const allUnshelvedAlbums = albumsInColumn.concat(unshelvedAlbumsCopy);
+        return {
+          ...columnsCopy,
+          'unshelved': {
+            ...columnsCopy['unshelved'],
+            orderedIds: allUnshelvedAlbums
+          }
+        }
+      });
+    }
   }
 
   const getAlbumItems = ({columnId, isHorizontal = false}) => {
@@ -162,7 +184,7 @@ function DragAndDropContainer({ allData, newPageData }) {
         <ShelfList>
           {getShelfItems()}
         </ShelfList>
-        <button type="button" onClick={addShelf}>Add Shelf</button>
+        <button type="button" onClick={onAddShelf}>Add Shelf</button>
       </Column>
     </DragDropContext>
   );
