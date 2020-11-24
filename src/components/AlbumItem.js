@@ -10,24 +10,33 @@ const Element = styled.li`
   width: 250px;
   border-radius: 5px;
   background-color: #444;
-  padding: 5px 15px 15px;
+  padding: 15px;
 `;
 
-const Row = styled.div``;
-
-const Header = styled.header`
+const Row = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const Title = styled.h3`
+  flex: 1 1 auto;
+  display: flex;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+  .fa-music {
+    transform: translateY(2px);
+  }
 `;
 
 const TitleText = styled.span`
   margin-left: 0.5em;
+`;
+
+const Year = styled.p`
+  justify-self: flex-end;
+  margin: 0;
+  padding-left: 5px;
 `;
 
 const DataHeading = styled.h4`
@@ -78,13 +87,13 @@ function AlbumItem({info, index}) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Header>
+          <Row as="header">
             <Title>
               <FontAwesomeIcon icon={faMusic} />
               <TitleText>{info.title}</TitleText>
             </Title>
-            <p>{info.year ? info.year : 'Unknown'}</p>
-          </Header>
+            <Year>{info.year ? info.year : 'Unknown'}</Year>
+          </Row>
           <Row>
             <DataHeading>
               <FontAwesomeIcon icon={faMicrophoneAlt} fixedWidth />
