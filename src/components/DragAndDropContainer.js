@@ -182,7 +182,11 @@ function DragAndDropContainer({ allData, newPageData }) {
       </Column>
       <Column>
         <ShelfList>
-          {getShelfItems()}
+          {Object.keys(columns).length === 1 ? (
+            <p>Please add a shelf</p>
+          ) : (
+            getShelfItems()
+          )}
         </ShelfList>
         <button type="button" onClick={onAddShelf}>Add Shelf</button>
       </Column>
