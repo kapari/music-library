@@ -31,6 +31,8 @@ const Row = styled.div`
 const Title = styled.h3`
   flex: 1 1 auto;
   display: flex;
+  max-width: 100%;
+  overflow: hidden;
   margin-top: 0;
   margin-bottom: 0.5em;
   line-height: 1.2;
@@ -40,6 +42,9 @@ const Title = styled.h3`
 `;
 
 const TitleText = styled.span`
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-left: 0.5em;
 `;
 
