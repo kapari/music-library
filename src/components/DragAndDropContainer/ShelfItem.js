@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
-import AlbumList from './AlbumList.js';
+import AlbumList from './AlbumList/AlbumList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 

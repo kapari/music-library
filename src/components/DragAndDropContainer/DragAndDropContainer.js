@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 import ShelfItem from './ShelfItem';
-import AlbumList from './AlbumList.js';
-import AlbumItem from './AlbumItem.js';
+import AlbumList from './AlbumList/AlbumList';
+import AlbumItem from './AlbumList/AlbumItem';
 
 const Column = styled.section`
   width: calc(100% - 310px);
@@ -214,14 +214,14 @@ function DragAndDropContainer({
                 </AlbumList>
             )}
           </Droppable>
-          <button 
-            type="button" 
-            onClick={onLoadPage} 
-            disabled={hasLoadedAllPages}
-          >
-            Load More Albums
-          </button>
         </Shelf>
+        <button 
+          type="button" 
+          onClick={onLoadPage} 
+          disabled={hasLoadedAllPages}
+        >
+          Load More Albums
+        </button>
       </Column>
       <Column>
         <ShelfList>

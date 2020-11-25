@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import Header from './components/Header';
-import DragAndDropContainer from './components/DragAndDropContainer';
+import DragAndDropContainer from './components/DragAndDropContainer/DragAndDropContainer';
 import styled from '@emotion/styled';
 
 const Page = styled.div`
