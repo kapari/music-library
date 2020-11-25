@@ -21,7 +21,12 @@ const ShelfList = styled.ul`
   list-style-type: none;
 `;
 
-function DragAndDropContainer({ allData, newPageData }) {
+function DragAndDropContainer({ 
+  allData, 
+  newPageData, 
+  onLoadPage, 
+  hasLoadedAllPages 
+}) {
   const initialColumnsState = {
     unshelved: {
       key: 'unshelved',
@@ -39,8 +44,9 @@ function DragAndDropContainer({ allData, newPageData }) {
 
   // Add newly fetched data ids to unshelved column
   useEffect(() => {
-    const newUnshelvedIds = Object.keys(newPageData).map(item => item);
+    const newIds = Object.keys(newPageData).map(item => item);
     setColumns(prevState => {
+      const newUnshelvedIds = prevState['unshelved'].orderedIds.concat(newIds)
       return {
         ...prevState,
         'unshelved': {
@@ -179,6 +185,9 @@ function DragAndDropContainer({ allData, newPageData }) {
             </AlbumList>
           )}
         </Droppable>
+        <button type="button" onClick={onLoadPage} disabled={hasLoadedAllPages}>
+          Load More Albums
+        </button>
       </Column>
       <Column>
         <ShelfList>

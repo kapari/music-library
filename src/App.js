@@ -35,7 +35,7 @@ function App() {
   // Get a page of data
   useEffect(() => {
     setError(false);
-    fetch(`https://api.discogs.com/users/blacklight/collection/folders/0/releases?page=${currentPage}&per_page=50`, 
+    fetch(`https://api.discogs.com/users/blacklight/collection/folders/0/releases?page=${currentPage}&per_page=20`, 
       {
         method: 'GET',
         headers: {
@@ -74,7 +74,12 @@ function App() {
         )}
         {isLoaded && (
           <ErrorBoundary>
-            <DragAndDropContainer allData={allData} newPageData={newPageData} />
+            <DragAndDropContainer 
+              allData={allData} 
+              newPageData={newPageData} 
+              hasLoadedAllPages={currentPage === lastPage} 
+              onLoadPage={() => setCurrentPage(prevState => prevState + 1)}  
+            />
           </ErrorBoundary>
         )}
       </Main>
