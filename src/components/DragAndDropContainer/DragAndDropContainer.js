@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
+import Unshelved from './Unshelved';
 import ShelfItem from './ShelfItem';
-import AlbumList from './AlbumList/AlbumList';
 import AlbumItem from './AlbumList/AlbumItem';
 
 const Column = styled.section`
@@ -19,30 +19,6 @@ const ShelfList = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
-`;
-
-const Shelf = styled.div`
-  margin-bottom: 10px;
-  border: 1px solid #777;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding-bottom: 10px;
-`;
-
-const UnshelvedHeader = styled.header`
-  padding: 15px 10px;
-  border-bottom: 1px solid #777;
-`;
-
-const UnshelvedHeading = styled.h2`
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 20px;
-  line-height: 1;
-`;
-
-const AlbumCount = styled.p`
-  margin: 0;
 `;
 
 function DragAndDropContainer({ 
@@ -128,21 +104,6 @@ function DragAndDropContainer({
     }
   }
 
-  const getShelfItems = () => {
-    const items = Object.keys(columns).map(columnId => {
-      return columnId !== 'unshelved' ? (
-        <ShelfItem
-          key={columnId}
-          id={columnId}
-          onDeleteShelf={onDeleteShelf}
-        >
-          {getAlbumItems({columnId, isHorizontal: true})}
-        </ShelfItem>
-      ) : null
-    });
-    return items;
-  }
-
   const onAddShelf = (e) => {
     const newShelfId = `shelf${nextShelfId}`;
     setColumns(prevState => {
@@ -198,23 +159,12 @@ function DragAndDropContainer({
       onDragEnd={updateListContent}
     >
       <Column>
-        <Shelf>
-          <UnshelvedHeader>
-            <UnshelvedHeading>Unshelved Music</UnshelvedHeading>
-            <AlbumCount>Loaded {Object.keys(allData).length} of {totalAlbumCount} albums</AlbumCount>
-          </UnshelvedHeader>
-          <Droppable droppableId='unshelved'>
-            {(provided) => (
-                <AlbumList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {getAlbumItems({columnId: 'unshelved'})}
-                  {provided.placeholder}
-                </AlbumList>
-            )}
-          </Droppable>
-        </Shelf>
+        <Unshelved 
+          albumsLoadedCount={Object.keys(allData).length}
+          totalAlbumCount={totalAlbumCount}
+        >
+          {getAlbumItems({ columnId: 'unshelved' })}
+        </Unshelved>
         <button 
           type="button" 
           onClick={onLoadPage} 
@@ -228,7 +178,17 @@ function DragAndDropContainer({
           {Object.keys(columns).length === 1 ? (
             <p>Please add a shelf</p>
           ) : (
-            getShelfItems()
+            Object.keys(columns).map(columnId => {
+              return columnId !== 'unshelved' ? (
+                <ShelfItem
+                  key={columnId}
+                  id={columnId}
+                  onDeleteShelf={onDeleteShelf}
+                >
+                  {getAlbumItems({ columnId, isHorizontal: true })}
+                </ShelfItem>
+              ) : null
+            })
           )}
         </ShelfList>
         <button type="button" onClick={onAddShelf}>Add Shelf</button>
