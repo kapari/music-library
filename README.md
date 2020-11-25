@@ -1,3 +1,33 @@
+# Music Library Demo App
+
+## Feature List
+- [x] Load albums from Discogs API
+- [x] Display album name, year, artist(s), label(s), format(s)
+- [x] User can add new shelf
+- [x] User can edit name of shelf
+- [x] User can delete shelf
+- [x] User can drag and drop albums between shelves (including "unshelved")
+- [x] User can load more pages of albums while available
+- [ ] User can expand/collapse shelves to more easily drag between them (shorter distance)
+- [ ] User can re-order shelves
+- [ ] User can filter unshelved items
+- [ ] User can choose which Discogs username to request data from (currently hard-coded)
+
+## To-dos
+- [ ] Improve responsiveness
+- [ ] Refactor
+- [ ] Prop-types
+- [ ] Unit tests
+- [ ] Modal instead of alert box
+
+## Reasoning
+- Did not load all albums initially 
+  - Displaying that many albums at once would be overwhelming to a user unless the list was truncated and/or searchable
+  - The API caps requests at 25/min when unauthenticated, and 60 per minute when authenticated. Given the provided user had 4527 albums at the time of the project, there was no way to feasibly display all albums on initial page load. 
+- Chose drag-and-drop library because of emphasis on accessibility.
+
+---------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -29,42 +59,3 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
