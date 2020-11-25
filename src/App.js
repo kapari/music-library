@@ -33,7 +33,8 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(null);
+  const [lastPage, setLastPage] = useState(0);
+  const [totalAlbums, setTotalAlbums] = useState(0)
   const [newPageData, setNewPageData] = useState({});
   const [allData, setAllData] = useState({});
 
@@ -62,6 +63,7 @@ function App() {
         const rawAlbumList = json.releases;
         const transformedData = transformData(rawAlbumList)
         setLastPage(json.pagination?.pages);
+        setTotalAlbums(json.pagination?.items);
         setNewPageData(transformedData);
         setAllData(prevState => {
           return {
@@ -92,7 +94,8 @@ function App() {
               allData={allData} 
               newPageData={newPageData} 
               hasLoadedAllPages={currentPage === lastPage} 
-              onLoadPage={() => setCurrentPage(prevState => prevState + 1)}  
+              onLoadPage={() => setCurrentPage(prevState => prevState + 1)}
+              totalAlbumCount={totalAlbums}
             />
           </ErrorBoundary>
         )}

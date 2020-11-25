@@ -6,10 +6,10 @@ import AlbumList from './AlbumList.js';
 import AlbumItem from './AlbumItem.js';
 
 const Column = styled.section`
-  width: calc(100% - 320px);
+  width: calc(100% - 310px);
   flex: 0 1 auto;
   &:first-of-type {
-    flex: 0 1 320px;
+    flex: 0 1 310px;
     padding-right: 30px;
   }
 `;
@@ -21,11 +21,36 @@ const ShelfList = styled.ul`
   list-style-type: none;
 `;
 
+const Shelf = styled.div`
+  margin-bottom: 10px;
+  border: 1px solid #777;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding-bottom: 10px;
+`;
+
+const UnshelvedHeader = styled.header`
+  padding: 15px 10px;
+  border-bottom: 1px solid #777;
+`;
+
+const UnshelvedHeading = styled.h2`
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 20px;
+  line-height: 1;
+`;
+
+const AlbumCount = styled.p`
+  margin: 0;
+`;
+
 function DragAndDropContainer({ 
   allData, 
-  newPageData, 
+  newPageData,
   onLoadPage, 
-  hasLoadedAllPages 
+  hasLoadedAllPages,
+  totalAlbumCount
 }) {
   const initialColumnsState = {
     unshelved: {
@@ -173,21 +198,30 @@ function DragAndDropContainer({
       onDragEnd={updateListContent}
     >
       <Column>
-        <h2>Unshelved Music</h2>
-        <Droppable droppableId='unshelved'>
-          {(provided) => (
-            <AlbumList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {getAlbumItems({columnId: 'unshelved'})}
-              {provided.placeholder}
-            </AlbumList>
-          )}
-        </Droppable>
-        <button type="button" onClick={onLoadPage} disabled={hasLoadedAllPages}>
-          Load More Albums
-        </button>
+        <Shelf>
+          <UnshelvedHeader>
+            <UnshelvedHeading>Unshelved Music</UnshelvedHeading>
+            <AlbumCount>Loaded {Object.keys(allData).length} of {totalAlbumCount} albums</AlbumCount>
+          </UnshelvedHeader>
+          <Droppable droppableId='unshelved'>
+            {(provided) => (
+                <AlbumList
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {getAlbumItems({columnId: 'unshelved'})}
+                  {provided.placeholder}
+                </AlbumList>
+            )}
+          </Droppable>
+          <button 
+            type="button" 
+            onClick={onLoadPage} 
+            disabled={hasLoadedAllPages}
+          >
+            Load More Albums
+          </button>
+        </Shelf>
       </Column>
       <Column>
         <ShelfList>

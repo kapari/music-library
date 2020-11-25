@@ -8,6 +8,8 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 const Element = styled.li`
   margin-bottom: 10px;
   border: 1px solid #777;
+  border-radius: 5px;
+  background-color: rgba(0,0,0,0.8);
 `;
 
 const Header = styled.header`
@@ -19,10 +21,7 @@ const Header = styled.header`
 
 const Heading = styled.h2``;
 
-const Content = styled.div`
-  padding-top: 10px;
-  padding-left: 10px;
-`;
+const Content = styled.div``;
 
 const SecretInput = styled.input`
   transition: border-bottom 0.25s ease-in-out;
