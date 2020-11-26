@@ -1,7 +1,5 @@
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
-import AlbumList from './AlbumList/AlbumList';
 
 const Shelf = styled.div`
   margin-bottom: 10px;
@@ -36,17 +34,7 @@ function Unshelved({ albumsLoadedCount, totalAlbumCount, children }) {
           Loaded {albumsLoadedCount} of {totalAlbumCount} albums
         </AlbumCount>
       </UnshelvedHeader>
-      <Droppable droppableId='unshelved'>
-        {(provided) => (
-          <AlbumList
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {children}
-            {provided.placeholder}
-          </AlbumList>
-        )}
-      </Droppable>
+      {children}
     </Shelf>
   );
 }

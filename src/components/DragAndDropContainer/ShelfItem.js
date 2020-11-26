@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
-import AlbumList from './AlbumList/AlbumList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
@@ -76,17 +74,7 @@ function ShelfItem({ id, onDeleteShelf, children }) {
         </DeleteButton>
       </Header>
       <Content>
-        <Droppable droppableId={id} direction="horizontal">
-          {(provided) => (
-            <AlbumList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {children}
-              {provided.placeholder}
-            </AlbumList>
-          )}
-        </Droppable>
+        {children}
       </Content>
     </Element>
   );

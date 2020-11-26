@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 import Unshelved from './Unshelved';
 import ShelfItem from './ShelfItem';
+import AlbumList from './AlbumList/AlbumList';
 import AlbumItem from './AlbumList/AlbumItem';
+// Modified React Sortable HOC to drop to multiple lists
+// https://github.com/clauderic/react-sortable-hoc/pull/138#issuecomment-509514762
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
 const Column = styled.section`
   width: calc(100% - 310px);
@@ -37,7 +40,7 @@ function DragAndDropContainer({
     shelf1: {
       key: 'shelf1',
       name: 'My New Shelf',
-      orderedIds: []
+      orderedIds: [35126, 62155]
     }
   }
   const [columns, setColumns] = useState(initialColumnsState);
@@ -58,51 +61,54 @@ function DragAndDropContainer({
     })
   }, [newPageData]);
 
-
-  const updateListContent = (result) => {
-    const { draggableId, source, destination } = result;
-    const startListId = source.droppableId;
-    const startListIndex = source.index;
-    const endListId = destination?.droppableId;
-    const endListIndex = destination?.index;
-
-    // If no destination, or if destination same as source, do nothing
-    if (!destination || (
-      (startListId === endListId) &&
-      source.index === destination.index
-    )) {
-      return;
-    }
-
-    // Update column orderedIds
-    const newStartIds = Array.from(columns[startListId].orderedIds);
-    newStartIds.splice(startListIndex, 1);
-
-    if (startListId === endListId) {
-      newStartIds.splice(endListIndex, 0, draggableId);
-      setColumns({
-        ...columns,
-        [startListId]: {
-          ...columns[startListId],
-          orderedIds: newStartIds
-        }
-      })
-    } else {
-      const newEndIds = Array.from(columns[endListId].orderedIds);
-      newEndIds.splice(endListIndex, 0, draggableId);
-      setColumns({
-        ...columns,
-        [startListId]: {
-          ...columns[startListId],
-          orderedIds: newStartIds
-        },
-        [endListId]: {
-          ...columns[endListId],
-          orderedIds: newEndIds
-        }
-      })
-    }
+  const onSortEnd = (options, e) => {
+    console.log("onSortEnd", options, e)
   }
+
+  // const updateListContent = (result) => {
+  //   const { draggableId, source, destination } = result;
+  //   const startListId = source.droppableId;
+  //   const startListIndex = source.index;
+  //   const endListId = destination?.droppableId;
+  //   const endListIndex = destination?.index;
+
+  //   // If no destination, or if destination same as source, do nothing
+  //   if (!destination || (
+  //     (startListId === endListId) &&
+  //     source.index === destination.index
+  //   )) {
+  //     return;
+  //   }
+
+  //   // Update column orderedIds
+  //   const newStartIds = Array.from(columns[startListId].orderedIds);
+  //   newStartIds.splice(startListIndex, 1);
+
+  //   if (startListId === endListId) {
+  //     newStartIds.splice(endListIndex, 0, draggableId);
+  //     setColumns({
+  //       ...columns,
+  //       [startListId]: {
+  //         ...columns[startListId],
+  //         orderedIds: newStartIds
+  //       }
+  //     })
+  //   } else {
+  //     const newEndIds = Array.from(columns[endListId].orderedIds);
+  //     newEndIds.splice(endListIndex, 0, draggableId);
+  //     setColumns({
+  //       ...columns,
+  //       [startListId]: {
+  //         ...columns[startListId],
+  //         orderedIds: newStartIds
+  //       },
+  //       [endListId]: {
+  //         ...columns[endListId],
+  //         orderedIds: newEndIds
+  //       }
+  //     })
+  //   }
+  // }
 
   const onAddShelf = (e) => {
     const newShelfId = `shelf${nextShelfId}`;
@@ -140,60 +146,95 @@ function DragAndDropContainer({
     }
   }
 
-  const getAlbumItems = ({columnId, isHorizontal = false}) => {
-    const items = columns[columnId].orderedIds.map((albumId, index) => {
-      return (
-        <AlbumItem
-          key={albumId}
-          index={index}
-          info={allData[albumId]}
-          horizontal={isHorizontal}
-        />
-      )
-    });
-    return items;
+  const ListOfSortableItems = ({id}) => {
+    return (
+      <AlbumList id={id}>
+        {columns[id].orderedIds.map((albumId, index) => {
+          console.log(id)
+          console.log(albumId)
+          return (
+            <SortableItem 
+              key={albumId} 
+              index={index} 
+              info={allData[albumId]}
+            />
+          )
+        })}
+      </AlbumList>
+    )
   }
 
+  const SortableItem = SortableElement(({info}) => <AlbumItem info={info} />)
+
+  const SortableGroup = SortableContainer(({
+    columns,
+    allData,
+    hasUserShelves
+  }) => {
+    return (
+      <>
+        <Column>
+          <Unshelved
+            albumsLoadedCount={Object.keys(allData).length}
+            totalAlbumCount={totalAlbumCount}
+          >
+            <AlbumList>
+              <ListOfSortableItems id='unshelved' />
+            </AlbumList>
+          </Unshelved>
+          <button
+            type="button"
+            onClick={onLoadPage}
+            disabled={hasLoadedAllPages}
+          >
+            Load More Albums
+          </button>
+        </Column>
+        <Column>
+          <ShelfList>
+            {!hasUserShelves ? (
+              <p>Please add a shelf</p>
+            ) : (
+                Object.keys(columns).map(columnId => {
+                  return columnId !== 'unshelved' ? (
+                    <ShelfItem
+                      key={columnId}
+                      id={columnId}
+                      onDeleteShelf={onDeleteShelf}
+                    >
+                      {console.log("shelfId: ", columnId)}
+                      <ListOfSortableItems id={columnId} />
+                    </ShelfItem>
+                  ) : null
+                })
+              )}
+          </ShelfList>
+          <button type="button" onClick={onAddShelf}>Add Shelf</button>
+        </Column>
+      </>
+    )
+  })
+
+  // const SortableList = SortableContainer(({columnId}) => {
+  //   return (
+  //     <AlbumList>
+  //       {columns[columnId].orderedIds.map((albumId, index) => {
+  //         return (
+  //           <SortableItem key={albumId} index={index} info={allData[albumId]} />
+  //         )
+  //       })}
+  //     </AlbumList>
+  //   )
+  // })
+
   return (
-    <DragDropContext
-      onDragEnd={updateListContent}
-    >
-      <Column>
-        <Unshelved 
-          albumsLoadedCount={Object.keys(allData).length}
-          totalAlbumCount={totalAlbumCount}
-        >
-          {getAlbumItems({ columnId: 'unshelved' })}
-        </Unshelved>
-        <button 
-          type="button" 
-          onClick={onLoadPage} 
-          disabled={hasLoadedAllPages}
-        >
-          Load More Albums
-        </button>
-      </Column>
-      <Column>
-        <ShelfList>
-          {Object.keys(columns).length === 1 ? (
-            <p>Please add a shelf</p>
-          ) : (
-            Object.keys(columns).map(columnId => {
-              return columnId !== 'unshelved' ? (
-                <ShelfItem
-                  key={columnId}
-                  id={columnId}
-                  onDeleteShelf={onDeleteShelf}
-                >
-                  {getAlbumItems({ columnId, isHorizontal: true })}
-                </ShelfItem>
-              ) : null
-            })
-          )}
-        </ShelfList>
-        <button type="button" onClick={onAddShelf}>Add Shelf</button>
-      </Column>
-    </DragDropContext>
+    <SortableGroup
+      columns={columns}
+      allData={allData}
+      hasUserShelves={Object.keys(columns).length > 1}
+      onSortEnd={onSortEnd}
+      axis='xy'
+    />
   );
 }
 

@@ -6,7 +6,6 @@ import {
   faMusic, 
   faTag
 } from '@fortawesome/free-solid-svg-icons'
-import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
 const Element = styled.li`
@@ -78,7 +77,7 @@ const DataItem = styled.li`
   }
 `;
 
-function AlbumItem({info, index, isHorizontal}) {
+function AlbumItem({info}) {
   const artists = info.artists.map(item => {
     return <DataItem>{item.name}</DataItem>
   })
@@ -90,50 +89,36 @@ function AlbumItem({info, index, isHorizontal}) {
   })
 
   return (
-    <Draggable
-      key={info.id}
-      draggableId={info.id.toString()} 
-      index={index}
-    >
-      {provided => (
-        <Element
-          key={info.id}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          isHorizontal
-        >
-          <Row as="header">
-            <Title>
-              <FontAwesomeIcon icon={faMusic} />
-              <TitleText>{info.title}</TitleText>
-            </Title>
-            <Year>{info.year ? info.year : 'Unknown'}</Year>
-          </Row>
-          <Row>
-            <DataHeading>
-              <FontAwesomeIcon icon={faMicrophoneAlt} fixedWidth />
-              <span className="sr-only">Artists</span>
-            </DataHeading>
-            <DataList>{artists}</DataList>
-          </Row>
-          <Row>
-            <DataHeading>
-              <FontAwesomeIcon icon={faTag} fixedWidth />
-              <span className="sr-only">Labels</span>
-            </DataHeading>
-            <DataList>{labels}</DataList>
-          </Row>
-          <Row>
-            <DataHeading>
-              <FontAwesomeIcon icon={faCompactDisc} fixedWidth />
-              <span className="sr-only">Formats</span>
-            </DataHeading>
-            <DataList>{formats}</DataList>
-          </Row>
-        </Element>
-      )}
-    </Draggable>
+    <Element key={info.id}>
+      <Row as="header">
+        <Title>
+          <FontAwesomeIcon icon={faMusic} />
+          <TitleText>{info.title}</TitleText>
+        </Title>
+        <Year>{info.year ? info.year : 'Unknown'}</Year>
+      </Row>
+      <Row>
+        <DataHeading>
+          <FontAwesomeIcon icon={faMicrophoneAlt} fixedWidth />
+          <span className="sr-only">Artists</span>
+        </DataHeading>
+        <DataList>{artists}</DataList>
+      </Row>
+      <Row>
+        <DataHeading>
+          <FontAwesomeIcon icon={faTag} fixedWidth />
+          <span className="sr-only">Labels</span>
+        </DataHeading>
+        <DataList>{labels}</DataList>
+      </Row>
+      <Row>
+        <DataHeading>
+          <FontAwesomeIcon icon={faCompactDisc} fixedWidth />
+          <span className="sr-only">Formats</span>
+        </DataHeading>
+        <DataList>{formats}</DataList>
+      </Row>
+    </Element>
   );
 }
 

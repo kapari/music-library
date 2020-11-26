@@ -14,6 +14,8 @@
 - [ ] User can choose which Discogs username to request data from (currently hard-coded)
 
 ## To-dos
+- [ ] Color variables
+- [ ] Drag/drop styles
 - [ ] Improve responsiveness
 - [ ] Refactor
 - [ ] Prop-types
