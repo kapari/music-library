@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import styled from '@emotion/styled';
 
-const Element = styled.li`
+const Element = styled.div`
   margin-right: 10px;
   margin-bottom: 10px;
   max-width: 100%;
@@ -16,6 +16,7 @@ const Element = styled.li`
   border-radius: 5px;
   background-color: #444;
   padding: 15px;
+  color: white;
   ${props => props.isHorizontal ? {
     display: 'inline-block',
     verticalAlign: 'top'
@@ -62,8 +63,9 @@ const DataHeading = styled.h4`
 
 const DataList = styled.ul`
   display: inline;
-  margin-left: 0;
+  margin-top: 0;
   margin-bottom: 0.25em;
+  margin-left: 0;
   padding: 0;
   list-style-type: none;
 `;
@@ -89,7 +91,7 @@ function AlbumItem({info}) {
   })
 
   return (
-    <Element key={info.id}>
+    <Element key={info.id} role="listitem">
       <Row as="header">
         <Title>
           <FontAwesomeIcon icon={faMusic} />

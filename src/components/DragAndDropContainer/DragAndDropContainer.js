@@ -148,15 +148,14 @@ function DragAndDropContainer({
 
   const ListOfSortableItems = ({id}) => {
     return (
-      <AlbumList id={id}>
+      <AlbumList id={id} key={id} role="list">
         {columns[id].orderedIds.map((albumId, index) => {
-          console.log(id)
-          console.log(albumId)
           return (
             <SortableItem 
               key={albumId} 
               index={index} 
               info={allData[albumId]}
+              tabIndex={0}
             />
           )
         })}
@@ -178,9 +177,7 @@ function DragAndDropContainer({
             albumsLoadedCount={Object.keys(allData).length}
             totalAlbumCount={totalAlbumCount}
           >
-            <AlbumList>
-              <ListOfSortableItems id='unshelved' />
-            </AlbumList>
+            <ListOfSortableItems id='unshelved' />
           </Unshelved>
           <button
             type="button"

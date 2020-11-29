@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const AlbumList = styled.ul`
+export const AlbumList = styled.div`
   max-width: 100%;
   min-height: 150px;
   overflow: hidden;
