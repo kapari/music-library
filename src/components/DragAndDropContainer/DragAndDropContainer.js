@@ -155,7 +155,6 @@ function DragAndDropContainer({
               key={albumId} 
               index={index} 
               info={allData[albumId]}
-              tabIndex={0}
             />
           )
         })}
@@ -163,7 +162,7 @@ function DragAndDropContainer({
     )
   }
 
-  const SortableItem = SortableElement(({info}) => <AlbumItem info={info} />)
+  const SortableItem = SortableElement(({ info }) => <AlbumItem info={info} />)
 
   const SortableGroup = SortableContainer(({
     columns,

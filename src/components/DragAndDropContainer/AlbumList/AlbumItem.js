@@ -91,7 +91,7 @@ function AlbumItem({info}) {
   })
 
   return (
-    <Element key={info.id} role="listitem">
+    <Element key={info.id} role="listitem" tabIndex={0}>
       <Row as="header">
         <Title>
           <FontAwesomeIcon icon={faMusic} />
