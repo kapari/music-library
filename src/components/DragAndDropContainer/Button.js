@@ -1,22 +1,24 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import theme from '../../utils/colors';
 
 const Element = styled.button`
   transition: all 0.25s ease-in-out;
-  border: 1px solid white;
+  border: 1px solid ${theme.primaryText};
   border-radius: 5px;
-  background-color: #c64a01;
+  background-color: ${theme.primary};
   padding: 10px 20px;
   font-family: inherit;
+  font-size: 16px;
   font-weight: 700;
-  color: white;
+  color: ${theme.primaryText};
   cursor: pointer;
   &:hover,
   &:active,
   &:focus {
-    background-color: white;
-    color: black;
+    background-color: ${theme.primaryText};
+    color: ${theme.primary};
   }
 
   .svg-inline--fa {

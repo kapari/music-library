@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import AlbumList from './AlbumList/AlbumList';
+import theme from '../../utils/colors';
 
 const Shelf = styled.div`
   margin-bottom: 10px;
-  border: 1px solid #777;
+  border: 1px solid ${theme.contentBorder};
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: ${theme.contentBg};
   padding-bottom: 10px;
+  color: ${theme.headingText};
 `;
 
-const UnshelvedHeader = styled.header`
+const Header = styled.header`
   padding: 15px 10px;
-  border-bottom: 1px solid #777;
+  border-bottom: 1px solid ${theme.contentBorder};
 `;
 
-const UnshelvedHeading = styled.h2`
+const Heading = styled.h2`
   margin-top: 0;
   margin-bottom: 0;
   font-size: 20px;
@@ -29,12 +31,12 @@ const AlbumCount = styled.p`
 function Unshelved({ albumsLoadedCount, totalAlbumCount, albumElts }) {
   return (
     <Shelf>
-      <UnshelvedHeader>
-        <UnshelvedHeading>Unshelved Music</UnshelvedHeading>
+      <Header>
+        <Heading>Unshelved Music</Heading>
         <AlbumCount>
           Loaded {albumsLoadedCount} of {totalAlbumCount} albums
         </AlbumCount>
-      </UnshelvedHeader>
+      </Header>
       <AlbumList id="unshelved" direction="vertical">
         {albumElts}
       </AlbumList>

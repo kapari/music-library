@@ -8,6 +8,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
+import { transparentize } from 'polished';
+import theme from './../../../utils/colors';
 
 const Element = styled.li`
   transition: box-shadow 0.25s ease-in-out;
@@ -18,9 +20,10 @@ const Element = styled.li`
   max-width: 100%;
   width: 250px;
   border-radius: 5px;
-  background-color: #444;
+  background-color: ${theme.cardBg};
+  color: ${theme.cardText};
   padding: 15px;
-  box-shadow: ${props => props.isDragging ? '0 5px 10px rgba(0,0,0,.5)' : '0 5px 10px transparent'};
+  box-shadow: ${props => props.isDragging ? `0 5px 10px ${transparentize(0.5, 'black')}` : '0 5px 10px transparent'};
 
   ${props => props.isHorizontal ? {
     display: 'inline-block',
@@ -35,7 +38,15 @@ const Element = styled.li`
     top: 0;
     bottom: 0;
     width: 5px;
-    background-color: ${props => props.isDragging ? '#c64a01' : 'transparent'};
+    background-color: ${props => props.isDragging ? theme.primary : 'transparent'};
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    &::before {
+      background-color: ${theme.primary};
+    }
   }
 `;
 

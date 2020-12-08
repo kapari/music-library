@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import AlbumList from './AlbumList/AlbumList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import theme from '../../utils/colors';
 
 const Element = styled.li`
   margin-bottom: 10px;
-  border: 1px solid #777;
+  border: 1px solid ${theme.contentBorder};
   border-radius: 5px;
-  background-color: rgba(0,0,0,0.8);
+  background-color: ${theme.contentBg};
 `;
 
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #777;
+  border-bottom: 1px solid ${theme.contentBorder};
   padding: 10px;
 `;
 
@@ -31,12 +32,12 @@ const SecretInput = styled.input`
   border-bottom: 1px solid transparent;
   background-color: transparent;
   font-size: 20px;
-  color: white;
+  color: ${theme.headingText};
   &:hover,
   &:active,
   &:focus {
     outline: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid ${theme.headingText};
   }
 `;
 
@@ -51,7 +52,7 @@ const DeleteButton = styled.button`
   &:hover,
   &:active,
   &:focus {
-    background-color: #444;
+    background-color: ${theme.iconBtnHover};
   }
 `;
 

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Droppable } from 'react-beautiful-dnd';
 import { transparentize } from 'polished';
+import theme from '../../../utils/colors';
 
 export const List = styled.ul`
   transition: background-color 0.25s ease-in-out;
@@ -15,7 +16,7 @@ export const List = styled.ul`
   padding-left: 10px;
   padding-bottom: 0;
   list-style-type: none;
-  background-color: ${props => props.isDraggingOver ? transparentize('0.2', '#c64a01') : 'transparent'};
+  background-color: ${props => props.isDraggingOver ? transparentize('0.7', theme.primary) : 'transparent'};
 `;
 
 function AlbumList({ id, direction, children }) {

@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import theme from '../utils/colors';
 
 const Header = styled.header`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #777;
-  background-color: rgba(0,0,0,0.8);
+  border-bottom: 1px solid ${theme.contentBorder};
+  background-color: ${theme.contentBg};
   padding: 20px 50px;
+  color: ${theme.headingText};
 `;
 
 function AppHeader() {
