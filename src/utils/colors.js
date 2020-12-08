@@ -9,7 +9,7 @@ const colors = {
 }
 
 const getContrastText = (color) => {
-  if (meetsContrastGuidelines(colors.orange, colors.white)) {
+  if (meetsContrastGuidelines(color, colors.white)) {
     return colors.white
   } else {
     return colors.black
