@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import Unshelved from './Unshelved';
 import ShelfItem from './ShelfItem';
 import AlbumItem from './AlbumList/AlbumItem';
+import Button from './Button';
+import { faPlus, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const Column = styled.section`
   width: calc(100% - 310px);
@@ -165,13 +167,12 @@ function DragAndDropContainer({
         >
           {getAlbumItems({ columnId: 'unshelved' })}
         </Unshelved>
-        <button 
-          type="button" 
+        <Button 
+          faIcon={faDownload}
+          text={"Load More Albums"}
           onClick={onLoadPage} 
           disabled={hasLoadedAllPages}
-        >
-          Load More Albums
-        </button>
+        />
       </Column>
       <Column>
         <ShelfList>
@@ -191,7 +192,7 @@ function DragAndDropContainer({
             })
           )}
         </ShelfList>
-        <button type="button" onClick={onAddShelf}>Add Shelf</button>
+        <Button faIcon={faPlus} text={"Add Shelf"} onClick={onAddShelf} />
       </Column>
     </DragDropContext>
   );
