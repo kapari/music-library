@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 import AlbumList from './AlbumList/AlbumList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -56,7 +55,7 @@ const DeleteButton = styled.button`
   }
 `;
 
-function ShelfItem({ id, onDeleteShelf, children }) {
+function ShelfItem({ id, onDeleteShelf, albumElts }) {
   const [name, setName] = useState('My New Shelf');
 
   const handleNameChange = (e) => {
@@ -76,17 +75,9 @@ function ShelfItem({ id, onDeleteShelf, children }) {
         </DeleteButton>
       </Header>
       <Content>
-        <Droppable droppableId={id} direction="horizontal">
-          {(provided) => (
-            <AlbumList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {children}
-              {provided.placeholder}
-            </AlbumList>
-          )}
-        </Droppable>
+        <AlbumList id={id} direction="horizontal">
+          {albumElts}
+        </AlbumList>
       </Content>
     </Element>
   );

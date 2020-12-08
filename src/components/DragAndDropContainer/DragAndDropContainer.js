@@ -164,9 +164,8 @@ function DragAndDropContainer({
         <Unshelved 
           albumsLoadedCount={Object.keys(allData).length}
           totalAlbumCount={totalAlbumCount}
-        >
-          {getAlbumItems({ columnId: 'unshelved' })}
-        </Unshelved>
+          albumElts={getAlbumItems({ columnId: 'unshelved' })}
+        />
         <Button 
           faIcon={faDownload}
           text={"Load More Albums"}
@@ -185,9 +184,8 @@ function DragAndDropContainer({
                   key={columnId}
                   id={columnId}
                   onDeleteShelf={onDeleteShelf}
-                >
-                  {getAlbumItems({ columnId, isHorizontal: true })}
-                </ShelfItem>
+                  albumElts={getAlbumItems({ columnId, isHorizontal: true })}
+                />  
               ) : null
             })
           )}
