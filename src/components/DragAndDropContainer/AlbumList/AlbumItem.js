@@ -10,6 +10,9 @@ import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
 const Element = styled.li`
+  transition: box-shadow 0.25s ease-in-out;
+  position: relative;
+  overflow: hidden;
   margin-right: 10px;
   margin-bottom: 10px;
   max-width: 100%;
@@ -17,10 +20,23 @@ const Element = styled.li`
   border-radius: 5px;
   background-color: #444;
   padding: 15px;
+  box-shadow: ${props => props.isDragging ? '0 5px 10px rgba(0,0,0,.5)' : '0 5px 10px transparent'};
+
   ${props => props.isHorizontal ? {
     display: 'inline-block',
     verticalAlign: 'top'
   } : null}
+
+  &::before {
+    content: '';
+    transition: background-color 0.25s ease-in-out;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: ${props => props.isDragging ? '#c64a01' : 'transparent'};
+  }
 `;
 
 const Row = styled.div`
@@ -95,13 +111,14 @@ function AlbumItem({info, index, isHorizontal}) {
       draggableId={info.id.toString()} 
       index={index}
     >
-      {provided => (
+      {(provided, snapshot) => (
         <Element
           key={info.id}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          isHorizontal
+          isHorizontal={isHorizontal}
+          isDragging={snapshot.isDragging}
         >
           <Row as="header">
             <Title>
