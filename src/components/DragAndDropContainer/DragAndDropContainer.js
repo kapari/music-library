@@ -174,11 +174,11 @@ function DragAndDropContainer({
         />
       </Column>
       <Column>
-        <ShelfList>
-          {Object.keys(columns).length === 1 ? (
-            <p>Please add a shelf</p>
-          ) : (
-            Object.keys(columns).map(columnId => {
+        {Object.keys(columns).length === 1 ? (
+          <p>Please add a shelf</p>
+        ) : (
+          <ShelfList>
+            {Object.keys(columns).map(columnId => {
               return columnId !== 'unshelved' ? (
                 <ShelfItem
                   key={columnId}
@@ -187,10 +187,10 @@ function DragAndDropContainer({
                   albumElts={getAlbumItems({ columnId, isHorizontal: true })}
                 />  
               ) : null
-            })
-          )}
-        </ShelfList>
-        <Button faIcon={faPlus} text={"Add Shelf"} onClick={onAddShelf} />
+            })}
+          </ShelfList>
+        )}
+        <Button faIcon={faPlus} text={"Add a Shelf"} onClick={onAddShelf} />
       </Column>
     </DragDropContext>
   );
