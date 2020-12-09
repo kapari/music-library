@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import theme from '../../utils/colors';
@@ -33,6 +34,11 @@ function Button({ faIcon, text, ...otherAttrs}) {
       <span>{text}</span>
     </Element>
   );
+}
+
+Button.propTypes = {
+  faIcon: PropTypes.any.isRequired,
+  text: PropTypes.string.isRequired
 }
 
 export default Button;

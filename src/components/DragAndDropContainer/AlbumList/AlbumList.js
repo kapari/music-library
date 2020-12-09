@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import styled from '@emotion/styled';
 import { Droppable } from 'react-beautiful-dnd';
 import { transparentize } from 'polished';
@@ -34,6 +35,12 @@ function AlbumList({ id, direction, children }) {
       )}
     </Droppable>
   );
+}
+
+AlbumList.propTypes = {
+  id: PropTypes.string.isRequired,
+  direction: PropTypes.string,
+  children: PropTypes.arrayOf(PropTypes.element)
 }
 
 export default AlbumList;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import AlbumList from './AlbumList/AlbumList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -82,6 +83,12 @@ function ShelfItem({ id, onDeleteShelf, albumElts }) {
       </Content>
     </Element>
   );
+}
+
+ShelfItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  onDeleteShelf: PropTypes.func.isRequired,
+  albumElts: PropTypes.arrayOf(PropTypes.element).isRequired,
 }
 
 export default ShelfItem;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import AlbumList from './AlbumList/AlbumList';
 import theme from '../../utils/colors';
@@ -42,6 +43,12 @@ function Unshelved({ albumsLoadedCount, totalAlbumCount, albumElts }) {
       </AlbumList>
     </Shelf>
   );
+}
+
+Unshelved.propTypes = {
+  albumsLoadedCount: PropTypes.number.isRequired,
+  totalAlbumCount: PropTypes.number.isRequired,
+  albumElts: PropTypes.arrayOf(PropTypes.element).isRequired,
 }
 
 export default Unshelved;

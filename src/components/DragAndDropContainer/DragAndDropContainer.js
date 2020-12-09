@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 import Unshelved from './Unshelved';
@@ -194,6 +195,14 @@ function DragAndDropContainer({
       </Column>
     </DragDropContext>
   );
+}
+
+DragAndDropContainer.propTypes = {
+  allData: PropTypes.object.isRequired,
+  newPageData: PropTypes.object.isRequired,
+  onLoadPage: PropTypes.func.isRequired,
+  hasLoadedAllPages: PropTypes.bool.isRequired,
+  totalAlbumCount: PropTypes.number.isRequired
 }
 
 export default DragAndDropContainer;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { 
   faCompactDisc, 
@@ -163,6 +164,19 @@ function AlbumItem({info, index, isHorizontal}) {
       )}
     </Draggable>
   );
+}
+
+AlbumItem.propTypes = {
+  info: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    artists: PropTypes.array.isRequired,
+    formats: PropTypes.array.isRequired,
+    labels: PropTypes.array.isRequired
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  isHorizontal: PropTypes.bool
 }
 
 export default AlbumItem;
