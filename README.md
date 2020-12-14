@@ -11,12 +11,12 @@
 - [ ] User can expand/collapse shelves to more easily drag between them (shorter distance)
 - [ ] User can re-order shelves
 - [ ] User can filter unshelved items
-- [ ] User can choose which Discogs username to request data from (currently hard-coded)
+- [x] User can choose which Discogs username to request data from (currently hard-coded)
 
 ## To-dos
 - [ ] Improve responsiveness
 - [ ] Refactor
-- [ ] Prop-types
+- [x] Prop-types
 - [ ] Unit tests
 - [ ] Modal instead of alert box
 
