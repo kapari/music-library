@@ -24,7 +24,11 @@ const theme = {
   cardText: getContrastText(colors.darkGray),
   primary: colors.orange,
   primaryText: getContrastText(colors.orange),
-  iconBtnHover: colors.darkGray
+  iconBtnHover: colors.darkGray,
+  secondary: colors.darkGray,
+  secondaryText: getContrastText(colors.darkGray),
+  disabledBtn: colors.lightGray,
+  disabledBtnText: getContrastText(colors.lightGray),
 }
 
 export default theme;
