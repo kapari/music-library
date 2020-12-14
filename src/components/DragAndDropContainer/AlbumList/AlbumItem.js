@@ -107,25 +107,25 @@ const DataItem = styled.li`
 `;
 
 function AlbumItem({info, index, isHorizontal}) {
-  const artists = info.artists.map(item => {
+  const artists = info?.artists.map(item => {
     return <DataItem>{item.name}</DataItem>
   })
-  const formats = info.formats.map(item => {
+  const formats = info?.formats.map(item => {
     return <DataItem>{item.name}</DataItem>
   })
-  const labels = info.labels.map(item => {
+  const labels = info?.labels.map(item => {
     return <DataItem>{item.name}</DataItem>
   })
 
   return (
     <Draggable
-      key={info.id}
-      draggableId={info.id.toString()} 
+      key={info?.id || Math.random()}
+      draggableId={info?.id.toString()} 
       index={index}
     >
       {(provided, snapshot) => (
         <Element
-          key={info.id}
+          key={info?.id}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -135,9 +135,9 @@ function AlbumItem({info, index, isHorizontal}) {
           <Row as="header">
             <Title>
               <FontAwesomeIcon icon={faMusic} />
-              <TitleText>{info.title}</TitleText>
+              <TitleText>{info?.title}</TitleText>
             </Title>
-            <Year>{info.year ? info.year : 'Unknown'}</Year>
+            <Year>{info?.year ? info?.year : 'Unknown'}</Year>
           </Row>
           <Row>
             <DataHeading>

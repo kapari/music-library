@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import theme from '../utils/colors';
 
@@ -13,13 +14,35 @@ const Header = styled.header`
   color: ${theme.headingText};
 `;
 
-function AppHeader() {
+
+function AppHeader({ username, onSubmitUser }) {
+  const [tempUsername, setTempUsername] = useState(username);
+  const onChangeTempUser = (e) => {
+    setTempUsername(e.target.value)
+  }
+  const onSubmit = (e) => {
+    e.preventDefault();
+    onSubmitUser(tempUsername);
+  }
   return (
     <Header>
       <h1>Music Library</h1>
-      <nav></nav>
+      <form>
+        <label>
+          <div>Choose a Discogs user</div>
+          <input type="text" onChange={onChangeTempUser} value={tempUsername} />
+        </label>
+        <button type="submit" onClick={(e) => onSubmit(e)}>
+          Load Albums
+        </button>
+      </form>
     </Header>
   );
+}
+
+AppHeader.propTypes = {
+  username: PropTypes.string.isRequired,
+  onSubmitUser: PropTypes.func.isRequired
 }
 
 export default AppHeader;

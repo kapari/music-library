@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
@@ -31,36 +31,49 @@ function DragAndDropContainer({
   hasLoadedAllPages,
   totalAlbumCount
 }) {
-  const initialColumnsState = {
-    unshelved: {
-      key: 'unshelved',
-      name: 'Unshelved Music',
-      orderedIds: []
-    },
-    shelf1: {
-      key: 'shelf1',
-      name: 'My New Shelf',
-      orderedIds: []
+  const initialColumnsState = useMemo(() => {
+    return {
+      unshelved: {
+        key: 'unshelved',
+        name: 'Unshelved Music',
+        orderedIds: []
+      },
+      shelf1: {
+        key: 'shelf1',
+        name: 'My New Shelf',
+        orderedIds: []
+      }
     }
-  }
+  }, []);
   const [columns, setColumns] = useState(initialColumnsState);
   const [nextShelfId, setNextShelfId] = useState(2); // One default shelf
+
+  const updateAllDataWithNewPage = useCallback((newIds) => {
+    console.log('all Data in updateAllDataWithNewPage:', allData);
+    if (Object.keys(allData).length) {
+      setColumns(prevState => {
+        console.log("add data to prev user")
+        const newUnshelvedIds = prevState['unshelved'].orderedIds.concat(newIds)
+        console.log("set columns prev state", prevState)
+        return {
+          ...prevState,
+          'unshelved': {
+            ...prevState['unshelved'],
+            orderedIds: newUnshelvedIds
+          }
+        }
+      })
+    } else {
+      console.log("reset columns bc of new user")
+      setColumns(initialColumnsState)
+    }
+  }, [initialColumnsState, allData])
 
   // Add newly fetched data ids to unshelved column
   useEffect(() => {
     const newIds = Object.keys(newPageData).map(item => item);
-    setColumns(prevState => {
-      const newUnshelvedIds = prevState['unshelved'].orderedIds.concat(newIds)
-      return {
-        ...prevState,
-        'unshelved': {
-          ...prevState['unshelved'],
-          orderedIds: newUnshelvedIds
-        }
-      }
-    })
-  }, [newPageData]);
-
+    updateAllDataWithNewPage(newIds);
+  }, [newPageData, updateAllDataWithNewPage]);
 
   const updateListContent = (result) => {
     const { draggableId, source, destination } = result;
@@ -143,7 +156,7 @@ function DragAndDropContainer({
     }
   }
 
-  const getAlbumItems = ({columnId, isHorizontal = false}) => {
+  const getAlbumItems = useCallback(({columnId, isHorizontal = false}) => {
     const items = columns[columnId].orderedIds.map((albumId, index) => {
       return (
         <AlbumItem
@@ -155,7 +168,7 @@ function DragAndDropContainer({
       )
     });
     return items;
-  }
+  }, [allData, columns]);
 
   return (
     <DragDropContext

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
 import Header from './components/Header';
 import DragAndDropContainer from './components/DragAndDropContainer/DragAndDropContainer';
@@ -37,6 +37,7 @@ function App() {
   const [totalAlbums, setTotalAlbums] = useState(0)
   const [newPageData, setNewPageData] = useState({});
   const [allData, setAllData] = useState({});
+  const [username, setUsername] = useState('blacklight');
 
   // From API array to object with ids as keys
   const transformData = (dataArr) => {
@@ -47,10 +48,42 @@ function App() {
     return dataObj;
   }
 
+  const onSubmitUser = (newUsername) => {
+    setUsername(prevState => {
+      if (prevState !== newUsername) {
+        resetDataForNewUser();
+      }
+      return newUsername;
+    });
+    setUsername(newUsername)
+  };
+
+  const updateDataOnNewPageLoad = useCallback((json) => {
+    const transformedData = transformData(json.releases)
+    setLastPage(json.pagination?.pages);
+    setTotalAlbums(json.pagination?.items);
+    setNewPageData(transformedData);
+    setAllData(prevState => {
+      return {
+        ...prevState,
+        ...transformedData
+      };
+    })
+  }, []);
+
+  const resetDataForNewUser = () => {
+    setCurrentPage(1);
+    setLastPage(0);
+    setTotalAlbums(0);
+    setNewPageData({});
+    setAllData({})
+  }
+  
   // Get a page of data
   useEffect(() => {
+    setIsLoaded(false);
     setError(false);
-    fetch(`https://api.discogs.com/users/blacklight/collection/folders/0/releases?page=${currentPage}&per_page=20`, 
+    fetch(`https://api.discogs.com/users/${username}/collection/folders/0/releases?page=${currentPage}&per_page=20`, 
       {
         method: 'GET',
         headers: {
@@ -60,28 +93,18 @@ function App() {
     )
       .then(response => response.json())
       .then(json => {
-        const rawAlbumList = json.releases;
-        const transformedData = transformData(rawAlbumList)
-        setLastPage(json.pagination?.pages);
-        setTotalAlbums(json.pagination?.items);
-        setNewPageData(transformedData);
-        setAllData(prevState => {
-          return {
-            ...prevState,
-            ...transformedData
-          };
-        })
+        updateDataOnNewPageLoad(json);
         setIsLoaded(true);
       })
       .catch(error => {
         setError(true)
         console.log(`Something went wrong: ${error}`)
       });
-  }, [currentPage])
+  }, [username, currentPage, updateDataOnNewPageLoad])
 
   return (
     <Page>
-      <Header />
+      <Header username={username} onSubmitUser={onSubmitUser} />
       <Main>
         {!isLoaded && (
           <div>
