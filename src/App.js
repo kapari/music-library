@@ -82,7 +82,7 @@ function App() {
   // Get a page of data
   useEffect(() => {
     setIsLoaded(false);
-    setError(false);
+    setError(null);
     fetch(`https://api.discogs.com/users/${username}/collection/folders/0/releases?page=${currentPage}&per_page=20`, 
       {
         method: 'GET',
@@ -91,14 +91,24 @@ function App() {
         }
       }
     )
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('This username does not exist. Please try a different username.')
+          } else {
+            setError('Something went wrong.')
+          }
+          throw new Error('Network response not OK');
+        } else {
+          return response.json()
+        }
+      })
       .then(json => {
         updateDataOnNewPageLoad(json);
         setIsLoaded(true);
       })
       .catch(error => {
-        setError(true)
-        console.log(`Something went wrong: ${error}`)
+        console.error(error)
       });
   }, [username, currentPage, updateDataOnNewPageLoad])
 
@@ -106,12 +116,17 @@ function App() {
     <Page>
       <Header username={username} onSubmitUser={onSubmitUser} />
       <Main>
-        {!isLoaded && (
+        {error && (
+          <div>
+            <p>{error}</p>
+          </div>
+        )}
+        {!isLoaded && !error && (
           <div>
             <p>Loading...</p>
           </div>
         )}
-        {isLoaded && (
+        {isLoaded && !error && (
           <ErrorBoundary>
             <DragAndDropContainer 
               allData={allData} 

@@ -49,12 +49,9 @@ function DragAndDropContainer({
   const [nextShelfId, setNextShelfId] = useState(2); // One default shelf
 
   const updateAllDataWithNewPage = useCallback((newIds) => {
-    console.log('all Data in updateAllDataWithNewPage:', allData);
     if (Object.keys(allData).length) {
       setColumns(prevState => {
-        console.log("add data to prev user")
         const newUnshelvedIds = prevState['unshelved'].orderedIds.concat(newIds)
-        console.log("set columns prev state", prevState)
         return {
           ...prevState,
           'unshelved': {
@@ -64,7 +61,6 @@ function DragAndDropContainer({
         }
       })
     } else {
-      console.log("reset columns bc of new user")
       setColumns(initialColumnsState)
     }
   }, [initialColumnsState, allData])
